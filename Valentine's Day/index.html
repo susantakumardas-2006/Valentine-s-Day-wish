@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Valentine</title>
+    <style>
+        /* --- CSS STYLES --- */
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; 
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #ff4d6d;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #555;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%; 
+            object-fit: cover;
+            border: 5px solid #ff4d6d;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .question {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* Fixed the button container layout */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Space between buttons */
+            width: 100%;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            position: relative; /* Default position */
+            z-index: 10;
+        }
+
+        #yesBtn {
+            background-color: #2ecc71;
+            color: white;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        #noBtn {
+            background-color: #e74c3c;
+            color: white;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+            /* Removed absolute position from here so it sits next to Yes */
+        }
+
+        /* Success Page Styles */
+        #success-page {
+            display: none;
+            text-align: center;
+        }
+
+        /* Floating Hearts Animation Background */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            opacity: 0.5;
+            animation: float 5s infinite ease-in;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-page">
+        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGIwZHIxN3Z0bHlyMWd2eW04bnVqNm94b214N2V4ZnJ5cG5kYnZ4ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Her Photo" class="profile-img" id="her-photo">
+        
+        <h1>Happy Valentine's Day!</h1>
+        <h2>To my love, <span id="her-name">Neha</span> (<span id="nickname">Mummum😗</span>)</h2>
+                
+        <p class="question">Do you love me? 🥹</p>
+        
+        <div class="btn-group">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div class="container" id="success-page">
+        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3JvdXZycnI3aG54b3B6Z2g5b3Z6bm9yZ2V6Y3E2b2g4b3Z6bm9yZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/T86i6yDyOYz7J6dPhf/giphy.gif" alt="Us" class="profile-img" id="us-photo">
+        
+        <h1>Yesss!</h1>
+        <p class="question">I knew you loved me! ♥️<br>Happy Valentine's Day 🫂♥️</p>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainPage = document.getElementById('main-page');
+        const successPage = document.getElementById('success-page');
+
+        // Logic for the "No" button moving away
+        const moveButton = () => {
+            // Get random x and y coordinates
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
+
+            // Change position to fixed so it can move anywhere on screen
+            noBtn.style.position = 'fixed'; 
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        };
+
+        // Triggers
+        noBtn.addEventListener('mouseover', moveButton); // Desktop hover
+        noBtn.addEventListener('click', moveButton);     // Mobile tap
+
+        // Logic for the "Yes" button
+        yesBtn.addEventListener('click', () => {
+            mainPage.style.display = 'none';
+            successPage.style.display = 'block';
+            createHearts();
+        });
+
+        // Background Hearts
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '♥️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+                heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300);
+        }
+    </script>
+</body>
+</html>
